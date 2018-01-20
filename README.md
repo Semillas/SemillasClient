@@ -1,4 +1,4 @@
-#  Alternative Currency App
+#  Semillas App
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
 
 This app is intended to be the base for many different alternative currencies, social currencies and marketplace apps.
@@ -9,10 +9,10 @@ This app is intended to be the base for many different alternative currencies, s
 
 **Step 2:** cd to the cloned repo:
 
-**Step 3:** Change your App name. Replace `AlternativeCurrencyApp` by your currency name. Find and replace with your favorite editor. Or with teh following commands:
-  * `$ find . -type f  -exec sed -i 's/alternativecurrencyapp/bitcoinbazaar/g' {} \;`
-  * `$ find . -type f  -exec sed -i 's/AlternativeCurrencyApp/BitcoinBazaar/g' {} \;`
-  * `$ find . -type f  -exec sed -i 's/Alternative Currency/Bitcoin Bazaar/g' {} \;`
+**Step 3:** Change your App name. Replace `Semillas` by your currency name. Find and replace with your favorite editor. Or with teh following commands:
+  * `$ find . -type f  -exec sed -i 's/semillas/bitcoinbazaar/g' {} \;`
+  * `$ find . -type f  -exec sed -i 's/Semillas/BitcoinBazaar/g' {} \;`
+  * `$ find . -type f  -exec sed -i 's/Semillas/Bitcoin Bazaar/g' {} \;`
 
 
 **Step 4:** Install the Application with `npm install`
