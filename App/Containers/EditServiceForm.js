@@ -23,7 +23,6 @@ import {
   Button,
   Text,
   Form,
-  Toast,
   Item,
   Label
 } from 'native-base'
@@ -149,22 +148,6 @@ class EditServiceForm extends React.Component {
     this.props.attemptServicePost(title, description, category, seedsPrice, uuid)
   }
 
-  handlePressDelete = () => {
-    if (this.props.uuid) {
-      this.props.attemptServiceDelete(this.props.uuid)
-    } else if (this.props.newService) {
-      this.props.attemptServiceDelete(this.props.newService)
-    }
-
-    Toast.show({
-      text: I18n.t('Offer Deleted'),
-      position: 'bottom',
-      buttonText: 'Okay'
-    })
-
-    NavigationActions.profile()
-  }
-
   handleChangeTitle = (text) => {
     this.setState({ title: text })
   }
@@ -179,22 +162,6 @@ class EditServiceForm extends React.Component {
 
   handleChangeCategory = (itemValue, itemIndex) => {
     this.setState({ category: itemValue })
-  }
-
-  renderDeleteButton () {
-    if ((this.props.uuid) || (this.props.newService)) {
-      return (
-        <Button
-          block
-          danger
-          onPress={this.handlePressDelete}
-        >
-          <Text> {I18n.t('Delete Service')} </Text>
-        </Button>
-      )
-    } else {
-      return (<Content />)
-    }
   }
 
   renderGoToServiceButton() {
@@ -332,7 +299,6 @@ class EditServiceForm extends React.Component {
 
             </Form>
             <ServicePhotos serviceUuid={this.props.uuid ? this.props.uuid : this.props.newService} />
-            {this.renderDeleteButton()}
             <Button
               block
               onPress={this.handlePressPost}
@@ -372,8 +338,6 @@ const mapDispatchToProps = (dispatch) => {
           uuid
         )
       ),
-    attemptServiceDelete:
-      (uuid) => dispatch(ServiceActions.serviceDeletionRequest(uuid)),
     retrieveService: (uuid) => dispatch(ServiceActions.serviceRequest(uuid)),
     retrieveCategories: () => dispatch(CategoryActions.categoryRequest()),
     clearNewService: () => dispatch(ServiceActions.clearNewService())

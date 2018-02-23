@@ -7,6 +7,7 @@ export default {
   CurrencyName: 'alternativecurrency',
   AppShortName: 'Alternative Currency',
   WalletEnabled: true,
+  OnlyStaffCanPost: false,
 
   // Set to false to disable this buttons from drawer
   howItWorksUrl: 'https://www.semillasocial.org/landing/how_it_works/',

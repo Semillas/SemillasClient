@@ -15,6 +15,7 @@ import {
   Title,
   Text,
   Left,
+  Toast,
   Right,
   Button,
   H2,
@@ -35,9 +36,8 @@ import I18n from 'react-native-i18n'
 class ServiceScreen extends React.Component {
 
   componentWillMount () {
-    const { dispatch } = this.props
     // TODO: Check if the service is not loaded.
-    dispatch(ServiceActions.serviceRequest(this.props.uuid))
+    this.props.retrieveService(this.props.uuid)
   }
 
   renderCallToAction (service) {
@@ -61,6 +61,37 @@ class ServiceScreen extends React.Component {
           <Text>{I18n.t('Get it')}</Text>
         </Button>
       )
+    }
+  }
+
+  handlePressDelete = () => {
+    this.props.attemptServiceDelete(this.props.service.uuid)
+
+    Toast.show({
+      text: I18n.t('Offer Deleted'),
+      position: 'bottom',
+      buttonText: 'Okay'
+    })
+
+    NavigationActions.profile()
+  }
+
+
+  renderDeleteButton () {
+    if ( (this.props.loggedUser) &&
+      ((this.props.loggedUser.is_staff) ||
+      (this.props.loggedUser.uuid == this.props.service.author.uuid))) {
+      return (
+        <Button
+          block
+          danger
+          onPress={this.handlePressDelete}
+        >
+          <Text> {I18n.t('Delete Service')} </Text>
+        </Button>
+      )
+    } else {
+      return (<Content />)
     }
   }
 
@@ -112,6 +143,7 @@ class ServiceScreen extends React.Component {
               <CardItem>
                 <Body>
                   {this.renderCallToAction(service)}
+                  {this.renderDeleteButton()}
                 </Body>
               </CardItem>
             </Card>
@@ -136,4 +168,13 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps)(ServiceScreen)
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    attemptServiceDelete:
+      (uuid) => dispatch(ServiceActions.serviceDeletionRequest(uuid)),
+    retrieveService: (uuid) => dispatch(ServiceActions.serviceRequest(uuid)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ServiceScreen)

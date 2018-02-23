@@ -78,7 +78,9 @@ class DrawerContent extends Component {
             onPress={this.handlePressProfile}
             icon='user'
           />
-          <DrawerButton text={I18n.t('Add Service')} icon='plus-circle' onPress={this.handlePressNewService} />
+          {(!AppConfig.OnlyStaffCanPost || this.props.user.is_staff ) &&
+            <DrawerButton text={I18n.t('Add Service')} icon='plus-circle' onPress={this.handlePressNewService} />
+          }
           {AppConfig.WalletEnabled && <DrawerButton text={this.walletButtonText()} icon='money' onPress={this.handlePressCurrency} /> }
           {AppConfig.howItWorksUrl && <DrawerButton text={I18n.t('How it works')} icon='question' onPress={this.handlePressHowItWorks} /> }
           {AppConfig.aboutUsUrl && <DrawerButton text={I18n.t('About')} icon='info' onPress={this.handlePressAbout} /> }
