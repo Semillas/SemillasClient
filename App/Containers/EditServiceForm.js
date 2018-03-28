@@ -91,9 +91,11 @@ class EditServiceForm extends React.Component {
   componentWillMount () {
     // Using keyboardWillShow/Hide looks 1,000 times better, but doesn't work on Android
     // TODO: Revisit this if Android begins to support - https://github.com/facebook/react-native/issues/3468 or https://github.com/facebook/react-native/issues/14275
+    this.props.clearNewService()
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow)
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide)
 
+    this.state.new
     if (this.props.uuid) {
       // Editing a service
       if (this.props.service) {
@@ -144,17 +146,6 @@ class EditServiceForm extends React.Component {
       uuid = this.props.newService
     }
     this.props.attemptServicePost(title, description, category, seedsPrice, uuid)
-//    this.props.feedClear()
-//    this.props.feedRequest()
-  }
-
-  handlePressDelete = () => {
-    if (this.props.uuid) {
-      this.props.attemptServiceDelete(this.props.uuid)
-    } else if (this.props.newService) {
-      this.props.attemptServiceDelete(this.props.newService)
-    }
-    NavigationActions.feed()
   }
 
   handleChangeTitle = (text) => {
@@ -173,15 +164,15 @@ class EditServiceForm extends React.Component {
     this.setState({ category: itemValue })
   }
 
-  renderDeleteButton () {
-    if ((this.props.uuid) || (this.props.newService)) {
+  renderGoToServiceButton() {
+    if (!(this.props.uuid) && (this.props.newService)) {
       return (
         <Button
           block
-          danger
-          onPress={this.handlePressDelete}
+          info 
+          onPress={() => NavigationActions.service({uuid: this.props.newService})}
         >
-          <Text> {I18n.t('Delete Service')} </Text>
+          <Text> {I18n.t('View Service')} </Text>
         </Button>
       )
     } else {
@@ -308,13 +299,13 @@ class EditServiceForm extends React.Component {
 
             </Form>
             <ServicePhotos serviceUuid={this.props.uuid ? this.props.uuid : this.props.newService} />
-            {this.renderDeleteButton()}
             <Button
               block
               onPress={this.handlePressPost}
               >
                 {this.renderPublishButtonText()}
             </Button>
+            {this.renderGoToServiceButton()}
           </Card>
         </Content>
       </Container>
@@ -347,8 +338,6 @@ const mapDispatchToProps = (dispatch) => {
           uuid
         )
       ),
-    attemptServiceDelete:
-      (uuid) => dispatch(ServiceActions.serviceDeletionRequest(uuid)),
     retrieveService: (uuid) => dispatch(ServiceActions.serviceRequest(uuid)),
     retrieveCategories: () => dispatch(CategoryActions.categoryRequest()),
     clearNewService: () => dispatch(ServiceActions.clearNewService())
