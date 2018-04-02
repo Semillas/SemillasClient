@@ -11,7 +11,6 @@ import {
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import InfiniteScrollView from 'react-native-infinite-scroll-view'
-import Permissions from 'react-native-permissions'
 import FeedActions from '../Redux/FeedRedux.js'
 import GeoActions from '../Redux/GeoRedux.js'
 import ServiceFeed from '../Components/ServiceFeed'
@@ -80,11 +79,6 @@ class Feed extends React.Component {
   _geoFailure () {
     // Initial fetch for data, assuming that feed is not yet populated.
     return this.props.retrieveLocationFailure
-  }
-
-  _geoPermission () {
-    // Initial fetch for data, assuming that feed is not yet populated.
-    return this.props.geolocationPermission
   }
 
   getPosition () {
@@ -176,10 +170,6 @@ class Feed extends React.Component {
     }
   }
 
-  componentWillMount () {
-    Permissions.check('location')
-      .then(this._geoPermission())
-  }
 
   renderRow (data) {
     return (
@@ -223,7 +213,6 @@ const mapDispatchToProps = (dispatch) => {
     retrieveLocationSuccess: (position) => dispatch(GeoActions.geoSuccess(position)),
     retrieveLocationFailure: (error) => dispatch(GeoActions.geoFailure(error)),
     geolocationRequested: () => dispatch(FeedActions.geolocationRequested()),
-    geolocationPermission: (response) => dispatch(GeoActions.geoPermission(response)),
     dispatch: dispatch
   }
 }
