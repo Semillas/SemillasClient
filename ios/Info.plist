@@ -35,6 +35,9 @@
 			</dict>
 		</dict>
 	</dict>
+
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Access photo library to upload photos</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Access camera to take photos of your service</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
